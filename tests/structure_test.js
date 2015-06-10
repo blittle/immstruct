@@ -1095,6 +1095,18 @@ describe('structure', function () {
         ref.cursor().update(function () { return 'updated'; });
       });
 
+			it('should trigger reference cursors on forceHasSwapped', function(done) {
+        var structure = new Structure({
+          data: { 'foo': 'bar' }
+        });
+
+				var ref = structure.reference(['foo']);
+				ref.observe('swap', function() {
+					done();
+				});
+
+				structure.forceHasSwapped(structure.current, structure.current, ['foo']);
+			});
 
       it('should not remove listeners from other cursors', function (done) {
         var structure = new Structure({data: {foo: 'bar'}});
